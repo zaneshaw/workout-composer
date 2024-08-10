@@ -27,13 +27,43 @@ function Root() {
 	}
 
 	return (
-		<>
-			<h1>main page</h1>
-			<ul role="list" className="flex w-fit flex-col gap-1">
-				{inputs}
-			</ul>
-			<button onClick={startWorkout}>start workout</button>
-		</>
+		<div className="mx-auto flex w-1/2 flex-col items-center">
+			<h1 className="py-6">workout assistant</h1>
+			<div className="flex w-full flex-col gap-6">
+				<div className="flex gap-5 pt-6">
+					<div className="relative flex grow flex-col">
+						<span className="absolute -top-5 text-sm">workout</span>
+						<input type="text" defaultValue="split 1 (dropdown)" className="grow" />
+					</div>
+					<button className="btn px-14">import</button>
+					<button className="btn px-14">export</button>
+					<div className="my-1 w-0.5 bg-neutral-300" />
+					<button className="btn" />
+				</div>
+				<div className="mx-5 h-0.5 bg-neutral-300" />
+				<div className="flex flex-col gap-5">
+					<div className="flex gap-5 pt-3">
+						<div className="relative flex grow flex-col">
+							<span className="absolute -top-5 text-sm">workout name</span>
+							<input type="text" defaultValue="split 1" className="grow" />
+						</div>
+						<div className="relative flex flex-col">
+							<span className="absolute -top-5 text-sm">default exercise rest</span>
+							<input type="number" defaultValue="30" className="w-40 grow" />
+						</div>
+						<div className="relative flex flex-col">
+							<span className="absolute -top-5 text-sm">default set rest</span>
+							<input type="number" defaultValue="15" className="w-40 grow" />
+						</div>
+						<div className="my-1 w-0.5 bg-neutral-300" />
+						<button onClick={startWorkout} className="btn px-14">
+							start workout
+						</button>
+					</div>
+					<div className="flex flex-col items-center gap-1.5">{inputs}</div>
+				</div>
+			</div>
+		</div>
 	);
 }
 
