@@ -1,6 +1,6 @@
 import ExerciseCard from "@/components/ExerciseCard";
 import { Exercise, Workout } from "@/types/workout";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Transition, TransitionChild } from "@headlessui/react";
 
 function Root() {
@@ -10,7 +10,7 @@ function Root() {
 		return JSON.parse(saved);
 	});
 	useEffect(() => {
-		console.log(data);
+		console.log({ ...data });
 		localStorage.setItem("data", JSON.stringify(data));
 	}, [data]);
 
@@ -46,16 +46,6 @@ function Root() {
 
 		setData({ ...copy });
 	}
-
-	const ExerciseList = (): JSX.Element | JSX.Element[] => {
-		if (data.exercises.length > 0) {
-			return data.exercises.map((exercise, i) => (
-				<ExerciseCard exercise={exercise!} i={i} key={exercise!.key} last={i == data.exercises.length - 1} onExerciseUpdated={onExerciseUpdated} deleteExercise={deleteExercise} />
-			));
-		} else {
-			return <span>no exercises...</span>;
-		}
-	};
 
 	return (
 		<>
@@ -122,7 +112,20 @@ function Root() {
 							</button>
 						</div>
 						<div className="flex flex-col items-center gap-1.5 p-2 ring-2 ring-inset ring-neutral-200">
-							<ExerciseList />
+							{data.exercises.length > 0 ? (
+								data.exercises.map((exercise, i) => (
+									<ExerciseCard
+										exercise={exercise!}
+										i={i}
+										key={exercise!.key}
+										last={i == data.exercises.length - 1}
+										onExerciseUpdated={onExerciseUpdated}
+										deleteExercise={deleteExercise}
+									/>
+								))
+							) : (
+								<span>empty</span>
+							)}
 						</div>
 						<button onClick={addExercise} className="btn mx-auto">
 							add exercise
