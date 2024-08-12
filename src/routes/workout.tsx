@@ -6,11 +6,13 @@ function Workout() {
 	console.log(location.state);
 
 	return (
-		<>
-			<Link to="/">return</Link>
-			<h1>workout page</h1>
-			<pre>{JSON.stringify(location.state, null, 4)}</pre>
-		</>
+		<div className="mx-auto flex w-1/2 flex-col items-center">
+			<div className="flex flex-col items-center py-6">
+				<h1>workout page</h1>
+				<Link to="/">return</Link>
+			</div>
+			<pre className="w-full p-5 ring-1 ring-black">{JSON.stringify(location.state, null, 4)}</pre>
+		</div>
 	);
 }
 

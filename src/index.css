@@ -6,14 +6,26 @@
 	h1 {
 		@apply text-4xl;
 	}
-
-	input {
-		@apply rounded-lg ring-1 ring-black;
-	}
 }
 
 @layer components {
+	.input {
+		@apply bg-neutral-200 outline-none px-5;
+	}
+
+	.input:focus {
+		@apply bg-blue-200;
+	}
+
 	.btn {
-		@apply w-fit rounded-lg px-5 py-2 ring-1 ring-black;
+		@apply w-fit bg-neutral-300 px-5 py-2;
+	}
+
+	.btn:hover {
+		@apply bg-blue-200;
+	}
+
+	.btn:active {
+		@apply bg-blue-300;
 	}
 }

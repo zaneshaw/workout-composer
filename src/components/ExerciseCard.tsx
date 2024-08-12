@@ -1,11 +1,12 @@
+import { Exercise } from "@/types/workout";
 import React from "react";
 import { useState } from "react";
 
-type Props = { i: number; last: boolean; onExerciseUpdated: (i: number, name: string, sets: number, rest?: number) => void };
+type Props = { exercise: Exercise; i: number; last: boolean; onExerciseUpdated: (i: number, name: string, sets: number, rest?: number) => void };
 
-const ExerciseCard: React.FC<Props> = ({ i, last, onExerciseUpdated }: Props) => {
-	const [exerciseName, setExerciseName] = useState("");
-	const [exerciseSets, setExerciseSets] = useState(1);
+const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated }: Props) => {
+	const [exerciseName, setExerciseName] = useState(exercise.name);
+	const [exerciseSets, setExerciseSets] = useState(exercise.sets);
 
 	const RestInput = () => {
 		const [rest, setRest] = useState(30);
@@ -15,10 +16,10 @@ const ExerciseCard: React.FC<Props> = ({ i, last, onExerciseUpdated }: Props) =>
 			<div className={`flex gap-1 text-sm ${rest == 30 ? "text-neutral-300" : "text-black"}`}>
 				<input
 					type="number"
-					defaultValue="30"
+					defaultValue={exercise.rest ?? "30"}
 					min="5"
 					max="60"
-					className="w-8 ring-0"
+					className="w-8 bg-transparent ring-0"
 					onChange={(e) => {
 						setRest(Number(e.target.value));
 					}}
@@ -30,32 +31,34 @@ const ExerciseCard: React.FC<Props> = ({ i, last, onExerciseUpdated }: Props) =>
 
 	return (
 		<>
-			<div className="flex w-full gap-5 rounded-lg ring-1 ring-black">
+			<div className="flex w-full h-16 gap-0.5">
 				<input
 					type="text"
-					defaultValue={`exercise name ${i + 1}`}
+					defaultValue={exercise.name}
 					onChange={(e) => {
 						const name: string = e.target.value;
 						setExerciseName(() => name);
 						onExerciseUpdated(i, name, exerciseSets);
 					}}
-					className="grow py-3 ring-0"
+					className="input h-full grow flex"
 				/>
-				<div className="flex items-center gap-1">
+				<label className="relative cursor-text after:absolute after:right-5 after:top-1/2 after:origin-right after:-translate-y-1/2 after:content-['sets']">
 					<input
 						type="number"
-						defaultValue={exerciseSets}
+						defaultValue={exercise.sets}
+						min="1"
+						max="99"
 						onChange={(e) => {
 							const sets: number = Number(e.target.value);
 							setExerciseSets(() => sets);
 							onExerciseUpdated(i, exerciseName, sets);
 						}}
-						className="w-6 py-3 ring-0"
+						onFocus={(e) => e.target.select()}
+						className="input w-24 h-full pr-0"
 					/>
-					<span>sets</span>
-				</div>
-				<button type="button" className="btn bg-white ring-0">
-					Delete
+				</label>
+				<button type="button" className="btn">
+					delete
 				</button>
 			</div>
 			<RestInput />
