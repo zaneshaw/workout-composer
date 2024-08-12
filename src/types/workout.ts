@@ -5,6 +5,7 @@ export interface Workout {
 }
 
 export interface Exercise {
+	key: string;
 	name: string;
 	sets: number;
 	rest?: number;

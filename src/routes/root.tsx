@@ -1,10 +1,10 @@
 import ExerciseCard from "@/components/ExerciseCard";
-import { Workout } from "@/types/workout";
-import { useEffect, useState } from "react";
+import { Exercise, Workout } from "@/types/workout";
+import React, { useEffect, useState } from "react";
 import { Transition, TransitionChild } from "@headlessui/react";
 
 function Root() {
-	const [doWorkout, setDoWorkout] = useState<boolean>(true);
+	const [doWorkout, setDoWorkout] = useState<boolean>(false);
 	const [data, setData] = useState<Workout>(() => {
 		const saved = localStorage.getItem("data") ?? '{"exercises": []}';
 		return JSON.parse(saved);
@@ -16,11 +16,9 @@ function Root() {
 
 	function onExerciseUpdated(i: number, name: string, sets: number, rest?: number) {
 		const copy = { ...data };
-		copy.exercises[i] = { name, sets, rest };
+		copy.exercises[i] = { name, sets, rest, key: data.exercises[i]!.key };
 
-		setData((_) => ({
-			...copy,
-		}));
+		setData({ ...copy });
 	}
 
 	function startWorkout() {
@@ -37,17 +35,27 @@ function Root() {
 
 	function addExercise() {
 		const copy = { ...data };
-		copy.exercises.push({ name: "new exercise", sets: 1 });
+		copy.exercises.push({ name: "new exercise", sets: 1, key: self.crypto.randomUUID().toString() });
 
-		setData((_) => ({
-			...copy,
-		}));
+		setData({ ...copy });
 	}
 
-	const inputs = [];
-	for (let i = 0; i < data.exercises.length; i++) {
-		inputs.push(<ExerciseCard key={i.toString()} exercise={data.exercises[i]!} i={i} last={i == data.exercises.length - 1} onExerciseUpdated={onExerciseUpdated} />);
+	function deleteExercise(exercise: Exercise) {
+		const copy = { ...data };
+		copy.exercises.splice(copy.exercises.indexOf(exercise), 1);
+
+		setData({ ...copy });
 	}
+
+	const ExerciseList = (): JSX.Element | JSX.Element[] => {
+		if (data.exercises.length > 0) {
+			return data.exercises.map((exercise, i) => (
+				<ExerciseCard exercise={exercise!} i={i} key={exercise!.key} last={i == data.exercises.length - 1} onExerciseUpdated={onExerciseUpdated} deleteExercise={deleteExercise} />
+			));
+		} else {
+			return <span>no exercises...</span>;
+		}
+	};
 
 	return (
 		<>
@@ -113,7 +121,9 @@ function Root() {
 								start workout
 							</button>
 						</div>
-						<div className="flex flex-col items-center gap-1.5">{inputs}</div>
+						<div className="flex flex-col items-center gap-1.5 p-2 ring-2 ring-inset ring-neutral-200">
+							<ExerciseList />
+						</div>
 						<button onClick={addExercise} className="btn mx-auto">
 							add exercise
 						</button>

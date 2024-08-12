@@ -2,9 +2,9 @@ import { Exercise } from "@/types/workout";
 import React from "react";
 import { useState } from "react";
 
-type Props = { exercise: Exercise; i: number; last: boolean; onExerciseUpdated: (i: number, name: string, sets: number, rest?: number) => void };
+type Props = { exercise: Exercise; i: number; last: boolean; onExerciseUpdated: (i: number, name: string, sets: number, rest?: number) => void; deleteExercise: (exercise: Exercise) => void };
 
-const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated }: Props) => {
+const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated, deleteExercise }: Props) => {
 	const [exerciseName, setExerciseName] = useState(exercise.name);
 	const [exerciseSets, setExerciseSets] = useState(exercise.sets);
 
@@ -13,7 +13,7 @@ const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated }:
 		if (last) return;
 
 		return (
-			<div className={`flex gap-1 text-sm ${rest == 30 ? "text-neutral-300" : "text-black"}`}>
+			<div className={`flex gap-1 text-sm font-semibold ${rest == 30 ? "text-neutral-300" : "text-black"}`}>
 				<input
 					type="number"
 					defaultValue={exercise.rest ?? "30"}
@@ -31,7 +31,7 @@ const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated }:
 
 	return (
 		<>
-			<div className="flex w-full h-16 gap-0.5">
+			<div className="flex h-16 w-full gap-0.5">
 				<input
 					type="text"
 					defaultValue={exercise.name}
@@ -40,7 +40,7 @@ const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated }:
 						setExerciseName(() => name);
 						onExerciseUpdated(i, name, exerciseSets);
 					}}
-					className="input h-full grow flex"
+					className="input flex h-full grow"
 				/>
 				<label className="relative cursor-text after:absolute after:right-5 after:top-1/2 after:origin-right after:-translate-y-1/2 after:content-['sets']">
 					<input
@@ -54,10 +54,10 @@ const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated }:
 							onExerciseUpdated(i, exerciseName, sets);
 						}}
 						onFocus={(e) => e.target.select()}
-						className="input w-24 h-full pr-0"
+						className="input h-full w-24 pr-0"
 					/>
 				</label>
-				<button type="button" className="btn">
+				<button type="button" onClick={() => deleteExercise(exercise)} className="btn">
 					delete
 				</button>
 			</div>
