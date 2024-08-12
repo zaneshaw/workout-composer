@@ -1,8 +1,9 @@
 import { Exercise, Workout } from "@/types/data";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-type Props = { workout: Workout; exercise: Exercise; set: number; last: boolean; onNext: () => void; onStopWorkout: () => void };
-const ExerciseScreen: React.FC<Props> = ({ workout, exercise, set, last, onNext, onStopWorkout }: Props) => {
+type Props = { workout: Workout; exercise: Exercise; currentSet: number; onNext: () => void; onStopWorkout: () => void };
+const RestScreen: React.FC<Props> = ({ workout, exercise, currentSet, onNext, onStopWorkout }: Props) => {
+	const [timeLeft, setTimeLeft] = useState(currentSet == exercise.sets ? (exercise.rest ?? workout.exerciseRest) : workout.setRest);
 	useEffect(() => {
 		const onKeydown = (e: KeyboardEvent) => {
 			e.preventDefault();
@@ -11,25 +12,38 @@ const ExerciseScreen: React.FC<Props> = ({ workout, exercise, set, last, onNext,
 				if (e.code == "Escape") onStopWorkout();
 			}
 		};
+		const timer = setInterval(() => {
+			setTimeLeft(timeLeft - 1);
+			if (timeLeft - 1 == 0) {
+				onNext();
+				setTimeLeft(15);
+			}
+		}, 1000);
 
 		window.addEventListener("keydown", onKeydown);
 		document.body.style.overflowY = "hidden";
 
 		return () => {
 			window.removeEventListener("keydown", onKeydown);
+			clearInterval(timer);
+
 			document.body.style.overflowY = "";
 		};
-	}, [onNext, onStopWorkout]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [timeLeft]);
 
 	return (
 		<>
-			<div>
-				<h2 className="text-8xl">{exercise.name}</h2>
-				<h3 className="ml-1 text-xl font-semibold text-neutral-400">{workout.name}</h3>
+			<div className="flex flex-col items-center gap-10">
+				<div>
+					<h2 className="text-8xl">{exercise.name}</h2>
+					<h3 className="ml-1 text-xl font-semibold text-neutral-400">{workout.name}</h3>
+				</div>
+				<h2 className="text-5xl">{currentSet == exercise.sets ? "exercise rest time" : "set rest time"}</h2>
 			</div>
 			<div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-end gap-5">
-				<h1 className="mx-auto text-[12rem] leading-none">{set}</h1>
-				<h1 className="absolute -right-24 bottom-4 w-max text-3xl text-neutral-400">/ {exercise.sets} sets</h1>
+				<h1 className="mx-auto text-[12rem] leading-none">{timeLeft}</h1>
+				<h1 className="absolute -right-28 bottom-4 w-max text-3xl text-neutral-400">seconds</h1>
 			</div>
 			<div className="flex gap-1 text-2xl">
 				<button onClick={onStopWorkout} className="btn flex aspect-square h-full grow items-center justify-center gap-3">
@@ -39,9 +53,7 @@ const ExerciseScreen: React.FC<Props> = ({ workout, exercise, set, last, onNext,
 					</svg>
 				</button>
 				<button onClick={onNext} className="btn flex w-full items-center justify-center gap-1.5 px-24 py-6">
-					<span>finish</span>
-					{/* {set == exercise.sets ? <span className="italic">{exercise.name}</span> : <span>set {set}</span>} */}
-					{last ? <span>workout</span> : set == exercise.sets ? <span>exercise</span> : <span>set</span>}
+					<span>skip rest</span>
 					<span className="font-semibold text-neutral-500">(space)</span>
 				</button>
 			</div>
@@ -49,4 +61,4 @@ const ExerciseScreen: React.FC<Props> = ({ workout, exercise, set, last, onNext,
 	);
 };
 
-export default ExerciseScreen;
+export default RestScreen;

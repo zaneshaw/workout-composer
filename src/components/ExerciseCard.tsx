@@ -1,27 +1,39 @@
-import { Exercise } from "@/types/data";
+import { Exercise, Workout } from "@/types/data";
 import React from "react";
 import { useState } from "react";
 
-type Props = { exercise: Exercise; i: number; last: boolean; onExerciseUpdated: (i: number, name: string, sets: number, rest?: number) => void; deleteExercise: (exercise: Exercise) => void };
+type Props = {
+	workout: Workout;
+	exercise: Exercise;
+	i: number;
+	last: boolean;
+	onExerciseUpdated: (i: number, name: string, sets: number, rest?: number) => void;
+	deleteExercise: (exercise: Exercise) => void;
+};
 
-const ExerciseCard: React.FC<Props> = ({ exercise, i, last, onExerciseUpdated, deleteExercise }: Props) => {
+const ExerciseCard: React.FC<Props> = ({ workout, exercise, i, last, onExerciseUpdated, deleteExercise }: Props) => {
 	const [exerciseName, setExerciseName] = useState(exercise.name);
 	const [exerciseSets, setExerciseSets] = useState(exercise.sets);
+	const [rest, setRest] = useState(exercise.rest ?? workout.exerciseRest);
 
 	const RestInput = () => {
-		const [rest, setRest] = useState(30);
 		if (last) return;
 
 		return (
-			<div className={`flex gap-1 text-sm font-semibold ${rest == 30 ? "text-neutral-300" : "text-black"}`}>
+			<div className={`flex gap-1 text-sm font-semibold ${exercise.rest == undefined ? "text-neutral-300" : "text-black"}`}>
 				<input
 					type="number"
-					defaultValue={exercise.rest ?? "30"}
+					defaultValue={rest ?? workout.exerciseRest}
 					min="5"
 					max="60"
 					className="w-8 bg-transparent ring-0"
 					onChange={(e) => {
-						setRest(Number(e.target.value));
+						// todo: update also when default exercise rest changes (workout.exerciseRest)
+						const value: number = Number(e.target.value);
+						const restTime: number | undefined = value == workout.exerciseRest ? undefined : value;
+
+						setRest(restTime ?? workout.exerciseRest);
+						onExerciseUpdated(i, exerciseName, exerciseSets, restTime);
 					}}
 				/>
 				<span>seconds</span>

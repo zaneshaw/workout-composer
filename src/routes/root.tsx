@@ -1,8 +1,9 @@
-import ExerciseCard from "@/components/ExerciseCard";
 import { Data, Exercise, Workout } from "@/types/data";
 import { useEffect, useState } from "react";
 import { Transition, TransitionChild } from "@headlessui/react";
+import ExerciseCard from "@/components/ExerciseCard";
 import ExerciseScreen from "@/components/ExerciseScreen";
+import RestScreen from "@/components/RestScreen";
 
 function Root() {
 	const [doWorkout, setDoWorkout] = useState<boolean>(false);
@@ -15,6 +16,7 @@ function Root() {
 	const [workoutIdx, setWorkoutIdx] = useState(0);
 	const [exerciseIdx, setExerciseIdx] = useState(0);
 	const [currentSet, setCurrentSet] = useState(1);
+	const [isResting, setIsResting] = useState(false);
 	useEffect(() => {
 		localStorage.setItem("data", JSON.stringify(data));
 	}, [data]);
@@ -41,6 +43,7 @@ function Root() {
 		setTimeout(() => {
 			setExerciseIdx(0);
 			setCurrentSet(1);
+			setIsResting(false);
 		}, 300);
 	}
 
@@ -59,26 +62,34 @@ function Root() {
 	}
 
 	function next() {
-		// workoutIdx
-		// exerciseIdx
-		// currentSet
 		const workout: Workout = data.workouts[workoutIdx];
 		const exercise: Exercise = workout.exercises[exerciseIdx]!;
 
-		if (currentSet < exercise.sets) {
-			// next set
-			setCurrentSet(currentSet + 1);
-		} else {
-			// finish exercise
-			if (exerciseIdx < workout.exercises.length - 1) {
-				// next exercise
-				setExerciseIdx(exerciseIdx + 1);
-				setCurrentSet(1);
+		if (isResting) {
+			if (currentSet < exercise.sets) {
+				// next set
+				setCurrentSet(currentSet + 1);
 			} else {
-				// finish workout
-				stopWorkout();
+				// finish exercise
+				if (exerciseIdx < workout.exercises.length - 1) {
+					// next exercise
+					setExerciseIdx(exerciseIdx + 1);
+					setCurrentSet(1);
+				} else {
+					// fix: never actually happens. re-structure if statment
+					// finish workout
+					stopWorkout();
+					return;
+				}
 			}
+		} else if (currentSet == exercise.sets && exerciseIdx == workout.exercises.length - 1) {
+			// last set of last exercise
+			// finish workout
+			stopWorkout();
+			return;
 		}
+
+		setIsResting(!isResting);
 	}
 
 	return (
@@ -89,7 +100,24 @@ function Root() {
 				</TransitionChild>
 				<TransitionChild unmount>
 					<div className="fixed inset-0 z-50 my-16 flex scale-100 flex-col items-center justify-between transition-all duration-300 data-[closed]:scale-95 data-[closed]:opacity-0">
-						<ExerciseScreen workout={data.workouts[workoutIdx]} exercise={data.workouts[workoutIdx].exercises[exerciseIdx]!} set={currentSet} onNext={next} onStopWorkout={stopWorkout} />
+						{isResting ? (
+							<RestScreen
+								workout={data.workouts[workoutIdx]}
+								exercise={data.workouts[workoutIdx].exercises[exerciseIdx]!}
+								currentSet={currentSet}
+								onNext={next}
+								onStopWorkout={stopWorkout}
+							/>
+						) : (
+							<ExerciseScreen
+								workout={data.workouts[workoutIdx]}
+								exercise={data.workouts[workoutIdx].exercises[exerciseIdx]!}
+								set={currentSet}
+								last={currentSet == data.workouts[workoutIdx].exercises[exerciseIdx]!.sets && exerciseIdx == data.workouts[workoutIdx].exercises.length - 1}
+								onNext={next}
+								onStopWorkout={stopWorkout}
+							/>
+						)}
 					</div>
 				</TransitionChild>
 			</Transition>
@@ -172,6 +200,7 @@ function Root() {
 							{data.workouts[workoutIdx].exercises.length > 0 ? (
 								data.workouts[workoutIdx].exercises.map((exercise, i) => (
 									<ExerciseCard
+										workout={data.workouts[workoutIdx]}
 										exercise={exercise!}
 										i={i}
 										key={exercise!.key}
