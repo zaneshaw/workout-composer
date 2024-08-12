@@ -6,7 +6,9 @@ import { Transition, TransitionChild } from "@headlessui/react";
 function Root() {
 	const [doWorkout, setDoWorkout] = useState<boolean>(false);
 	const [data, setData] = useState<Data>(() => {
-		const saved = localStorage.getItem("data") ?? '{"workouts": [{"name": "new workout", "exerciseRest": 30, "setRest": 15, "exercises": []}, {"name": "another workout", "exerciseRest": 25, "setRest": 10, "exercises": []}]}';
+		const saved =
+			localStorage.getItem("data") ??
+			'{"workouts": [{"name": "new workout", "exerciseRest": 30, "setRest": 15, "exercises": []}, {"name": "another workout", "exerciseRest": 25, "setRest": 10, "exercises": []}]}';
 		return JSON.parse(saved);
 	});
 	const [workoutIdx, setWorkoutIdx] = useState(0);
@@ -83,7 +85,9 @@ function Root() {
 								<select onChange={(e) => setWorkoutIdx(Number(e.target.value))} className="input grow !bg-neutral-200">
 									{data.workouts.map((exercise, i) => (
 										// todo: key
-										<option key={i} value={i}>{exercise.name}</option>
+										<option key={i} value={i}>
+											{exercise.name}
+										</option>
 									))}
 								</select>
 							</div>
@@ -96,18 +100,50 @@ function Root() {
 					<div className="flex flex-col gap-5">
 						<div className="flex gap-3 pt-3">
 							<div className="flex grow gap-0.5">
-								{/* todo: use default value somehow? */}
 								<div className="relative flex grow flex-col">
 									<span className="absolute -top-5 text-sm">workout name</span>
-									<input type="text" value={data.workouts[workoutIdx].name} className="input grow" />
+									<input
+										type="text"
+										key={workoutIdx}
+										defaultValue={data.workouts[workoutIdx].name}
+										onChange={(e) => {
+											const copy = { ...data };
+											copy.workouts[workoutIdx].name = e.target.value;
+
+											setData({ ...copy });
+										}}
+										className="input grow"
+									/>
 								</div>
 								<div className="relative flex flex-col">
 									<span className="absolute -top-5 text-sm">default exercise rest</span>
-									<input type="number" value={data.workouts[workoutIdx].exerciseRest} className="input w-40 grow" />
+									<input
+										type="number"
+										key={workoutIdx}
+										defaultValue={data.workouts[workoutIdx].exerciseRest}
+										onChange={(e) => {
+											const copy = { ...data };
+											copy.workouts[workoutIdx].exerciseRest = Number(e.target.value);
+
+											setData({ ...copy });
+										}}
+										className="input w-40 grow"
+									/>
 								</div>
 								<div className="relative flex flex-col">
 									<span className="absolute -top-5 text-sm">default set rest</span>
-									<input type="number" value={data.workouts[workoutIdx].setRest} className="input w-40 grow" />
+									<input
+										type="number"
+										key={workoutIdx}
+										defaultValue={data.workouts[workoutIdx].setRest}
+										onChange={(e) => {
+											const copy = { ...data };
+											copy.workouts[workoutIdx].setRest = Number(e.target.value);
+
+											setData({ ...copy });
+										}}
+										className="input w-40 grow"
+									/>
 								</div>
 							</div>
 							<button onClick={startWorkout} className="btn px-14">
