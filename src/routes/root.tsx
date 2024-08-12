@@ -1,7 +1,8 @@
 import ExerciseCard from "@/components/ExerciseCard";
-import { Data, Exercise } from "@/types/data";
+import { Data, Exercise, Workout } from "@/types/data";
 import { useEffect, useState } from "react";
 import { Transition, TransitionChild } from "@headlessui/react";
+import ExerciseScreen from "@/components/ExerciseScreen";
 
 function Root() {
 	const [doWorkout, setDoWorkout] = useState<boolean>(false);
@@ -12,8 +13,9 @@ function Root() {
 		return JSON.parse(saved);
 	});
 	const [workoutIdx, setWorkoutIdx] = useState(0);
+	const [exerciseIdx, setExerciseIdx] = useState(0);
+	const [currentSet, setCurrentSet] = useState(1);
 	useEffect(() => {
-		console.log({ ...data });
 		localStorage.setItem("data", JSON.stringify(data));
 	}, [data]);
 
@@ -34,6 +36,12 @@ function Root() {
 
 	function stopWorkout() {
 		setDoWorkout(false);
+
+		// cursed: account for fade-out animation
+		setTimeout(() => {
+			setExerciseIdx(0);
+			setCurrentSet(1);
+		}, 300);
 	}
 
 	function addExercise() {
@@ -50,28 +58,38 @@ function Root() {
 		setData({ ...copy });
 	}
 
+	function next() {
+		// workoutIdx
+		// exerciseIdx
+		// currentSet
+		const workout: Workout = data.workouts[workoutIdx];
+		const exercise: Exercise = workout.exercises[exerciseIdx]!;
+
+		if (currentSet < exercise.sets) {
+			// next set
+			setCurrentSet(currentSet + 1);
+		} else {
+			// finish exercise
+			if (exerciseIdx < workout.exercises.length - 1) {
+				// next exercise
+				setExerciseIdx(exerciseIdx + 1);
+				setCurrentSet(1);
+			} else {
+				// finish workout
+				stopWorkout();
+			}
+		}
+	}
+
 	return (
 		<>
 			<Transition show={doWorkout}>
-				<TransitionChild>
+				<TransitionChild unmount>
 					<div className="fixed inset-0 z-40 bg-white transition duration-300 data-[closed]:opacity-0" />
 				</TransitionChild>
-				<TransitionChild>
-					<div className="fixed inset-0 z-50 flex scale-100 flex-col items-center justify-center gap-20 transition-all duration-300 data-[closed]:scale-90 data-[closed]:opacity-0">
-						<h2 className="text-5xl">exercise name</h2>
-						<div className="relative flex items-end gap-5">
-							<h1 className="mx-auto text-9xl">2</h1>
-							<h1 className="absolute -right-32 bottom-2 w-max text-4xl text-neutral-400">/ 4 sets</h1>
-						</div>
-						<div className="flex flex-col gap-2">
-							<button className="btn w-full">finish set (space)</button>
-							<div className="flex gap-2">
-								<button onClick={stopWorkout} className="btn">
-									stop workout
-								</button>
-								<button className="btn">pause workout</button>
-							</div>
-						</div>
+				<TransitionChild unmount>
+					<div className="fixed inset-0 z-50 my-16 flex scale-100 flex-col items-center justify-between transition-all duration-300 data-[closed]:scale-95 data-[closed]:opacity-0">
+						<ExerciseScreen workout={data.workouts[workoutIdx]} exercise={data.workouts[workoutIdx].exercises[exerciseIdx]!} set={currentSet} onNext={next} onStopWorkout={stopWorkout} />
 					</div>
 				</TransitionChild>
 			</Transition>

@@ -10,7 +10,7 @@
 
 @layer components {
 	.input {
-		@apply bg-neutral-200 outline-none px-5;
+		@apply bg-neutral-200 px-5 outline-none;
 	}
 
 	.input:focus {
