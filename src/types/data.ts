@@ -1,6 +1,11 @@
+export interface Data {
+	workouts: Workout[];
+}
+
 export interface Workout {
-	// exercise_rest: number;
-	// set_rest: number;
+	name: string;
+	exerciseRest: number;
+	setRest: number;
 	exercises: (Exercise | undefined)[];
 }
 

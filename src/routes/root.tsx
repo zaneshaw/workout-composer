@@ -1,14 +1,15 @@
 import ExerciseCard from "@/components/ExerciseCard";
-import { Exercise, Workout } from "@/types/workout";
+import { Data, Exercise } from "@/types/data";
 import { useEffect, useState } from "react";
 import { Transition, TransitionChild } from "@headlessui/react";
 
 function Root() {
 	const [doWorkout, setDoWorkout] = useState<boolean>(false);
-	const [data, setData] = useState<Workout>(() => {
-		const saved = localStorage.getItem("data") ?? '{"exercises": []}';
+	const [data, setData] = useState<Data>(() => {
+		const saved = localStorage.getItem("data") ?? '{"workouts": [{"name": "new workout", "exerciseRest": 30, "setRest": 15, "exercises": []}, {"name": "another workout", "exerciseRest": 25, "setRest": 10, "exercises": []}]}';
 		return JSON.parse(saved);
 	});
+	const [workoutIdx, setWorkoutIdx] = useState(0);
 	useEffect(() => {
 		console.log({ ...data });
 		localStorage.setItem("data", JSON.stringify(data));
@@ -16,14 +17,14 @@ function Root() {
 
 	function onExerciseUpdated(i: number, name: string, sets: number, rest?: number) {
 		const copy = { ...data };
-		copy.exercises[i] = { name, sets, rest, key: data.exercises[i]!.key };
+		copy.workouts[workoutIdx].exercises[i] = { name, sets, rest, key: data.workouts[workoutIdx].exercises[i]!.key };
 
 		setData({ ...copy });
 	}
 
 	function startWorkout() {
 		// todo: better validation
-		if (data.exercises.includes(undefined)) {
+		if (data.workouts[workoutIdx].exercises.includes(undefined)) {
 			return;
 		}
 		setDoWorkout(true);
@@ -35,14 +36,14 @@ function Root() {
 
 	function addExercise() {
 		const copy = { ...data };
-		copy.exercises.push({ name: "new exercise", sets: 1, key: self.crypto.randomUUID().toString() });
+		copy.workouts[workoutIdx].exercises.push({ name: "new exercise", sets: 1, key: self.crypto.randomUUID().toString() });
 
 		setData({ ...copy });
 	}
 
 	function deleteExercise(exercise: Exercise) {
 		const copy = { ...data };
-		copy.exercises.splice(copy.exercises.indexOf(exercise), 1);
+		copy.workouts[workoutIdx].exercises.splice(copy.workouts[workoutIdx].exercises.indexOf(exercise), 1);
 
 		setData({ ...copy });
 	}
@@ -79,10 +80,11 @@ function Root() {
 						<div className="flex grow gap-0.5">
 							<div className="relative flex grow flex-col">
 								<span className="absolute -top-5 text-sm">workout</span>
-								<select className="input grow !bg-neutral-200">
-									<option>split 1</option>
-									<option>split 2</option>
-									<option>split 3</option>
+								<select onChange={(e) => setWorkoutIdx(Number(e.target.value))} className="input grow !bg-neutral-200">
+									{data.workouts.map((exercise, i) => (
+										// todo: key
+										<option key={i} value={i}>{exercise.name}</option>
+									))}
 								</select>
 							</div>
 							<button className="btn px-14">import</button>
@@ -94,17 +96,18 @@ function Root() {
 					<div className="flex flex-col gap-5">
 						<div className="flex gap-3 pt-3">
 							<div className="flex grow gap-0.5">
+								{/* todo: use default value somehow? */}
 								<div className="relative flex grow flex-col">
 									<span className="absolute -top-5 text-sm">workout name</span>
-									<input type="text" defaultValue="split 1" className="input grow" />
+									<input type="text" value={data.workouts[workoutIdx].name} className="input grow" />
 								</div>
 								<div className="relative flex flex-col">
 									<span className="absolute -top-5 text-sm">default exercise rest</span>
-									<input type="number" defaultValue="30" className="input w-40 grow" />
+									<input type="number" value={data.workouts[workoutIdx].exerciseRest} className="input w-40 grow" />
 								</div>
 								<div className="relative flex flex-col">
 									<span className="absolute -top-5 text-sm">default set rest</span>
-									<input type="number" defaultValue="15" className="input w-40 grow" />
+									<input type="number" value={data.workouts[workoutIdx].setRest} className="input w-40 grow" />
 								</div>
 							</div>
 							<button onClick={startWorkout} className="btn px-14">
@@ -112,13 +115,13 @@ function Root() {
 							</button>
 						</div>
 						<div className="flex flex-col items-center gap-1.5 p-2 ring-2 ring-inset ring-neutral-200">
-							{data.exercises.length > 0 ? (
-								data.exercises.map((exercise, i) => (
+							{data.workouts[workoutIdx].exercises.length > 0 ? (
+								data.workouts[workoutIdx].exercises.map((exercise, i) => (
 									<ExerciseCard
 										exercise={exercise!}
 										i={i}
 										key={exercise!.key}
-										last={i == data.exercises.length - 1}
+										last={i == data.workouts[workoutIdx].exercises.length - 1}
 										onExerciseUpdated={onExerciseUpdated}
 										deleteExercise={deleteExercise}
 									/>

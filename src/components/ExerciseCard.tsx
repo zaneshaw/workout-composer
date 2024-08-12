@@ -1,4 +1,4 @@
-import { Exercise } from "@/types/workout";
+import { Exercise } from "@/types/data";
 import React from "react";
 import { useState } from "react";
 
