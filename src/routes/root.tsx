@@ -4,6 +4,8 @@ import { Transition, TransitionChild } from "@headlessui/react";
 import ExerciseCard from "@/components/ExerciseCard";
 import ExerciseScreen from "@/components/ExerciseScreen";
 import RestScreen from "@/components/RestScreen";
+import WorkoutScreen from "@/components/WorkoutScreen";
+import { v4 as uuidv4 } from "uuid";
 
 function Root() {
 	const [doWorkout, setDoWorkout] = useState<boolean>(false);
@@ -49,7 +51,7 @@ function Root() {
 
 	function addExercise() {
 		const copy = { ...data };
-		copy.workouts[workoutIdx].exercises.push({ name: "new exercise", sets: 1, key: self.crypto.randomUUID().toString() });
+		copy.workouts[workoutIdx].exercises.push({ name: "new exercise", sets: 1, key: uuidv4() });
 
 		setData({ ...copy });
 	}
