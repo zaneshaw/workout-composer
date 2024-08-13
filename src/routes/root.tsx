@@ -8,7 +8,7 @@ import WorkoutScreen from "@/components/WorkoutScreen";
 import { v4 as uuidv4 } from "uuid";
 
 function Root() {
-	const [doWorkout, setDoWorkout] = useState<boolean>(false);
+	const [doWorkout, setDoWorkout] = useState<boolean>(true);
 	const [data, setData] = useState<Data>(() => {
 		const saved =
 			localStorage.getItem("data") ??
@@ -97,12 +97,9 @@ function Root() {
 	return (
 		<>
 			<Transition show={doWorkout}>
-				<TransitionChild unmount>
-					<div className="fixed inset-0 z-40 bg-white transition duration-300 data-[closed]:opacity-0" />
-				</TransitionChild>
-				<TransitionChild unmount>
-					<div className="fixed inset-0 z-50 my-16 flex scale-100 flex-col items-center justify-between transition-all duration-300 data-[closed]:scale-95 data-[closed]:opacity-0">
-						{isResting ? (
+				<div className="fixed inset-0 z-50 bg-white transition-all duration-300 data-[closed]:translate-x-full">
+					<WorkoutScreen data={data} onStopWorkout={stopWorkout} />
+					{/* {isResting ? (
 							<RestScreen
 								workout={data.workouts[workoutIdx]}
 								exercise={data.workouts[workoutIdx].exercises[exerciseIdx]!}
@@ -119,9 +116,8 @@ function Root() {
 								onNext={next}
 								onStopWorkout={stopWorkout}
 							/>
-						)}
-					</div>
-				</TransitionChild>
+						)} */}
+				</div>
 			</Transition>
 			<div className="mx-auto flex w-1/2 flex-col items-center">
 				<h1 className="py-6">workout assistant</h1>
