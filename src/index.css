@@ -4,7 +4,20 @@
 
 @layer base {
 	html {
+		@apply text-neutral-800;
 		scrollbar-gutter: stable;
+	}
+
+	html::after {
+		content: "";
+		background: url("equipment.avif");
+		opacity: 0.5;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		position: fixed;
+		z-index: -1;
 	}
 
 	h1 {
@@ -14,15 +27,19 @@
 	h2 {
 		@apply text-2xl;
 	}
+
+	h3 {
+		@apply text-xl;
+	}
 }
 
 @layer components {
 	.input {
-		@apply bg-neutral-200 px-5 outline-none;
+		@apply border-2 border-neutral-200 px-5 outline-none;
 	}
 
 	.input:focus {
-		@apply bg-blue-200;
+		@apply border-sky-600;
 	}
 
 	.btn {

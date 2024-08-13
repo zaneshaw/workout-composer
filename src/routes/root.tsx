@@ -8,7 +8,7 @@ import WorkoutScreen from "@/components/WorkoutScreen";
 import { v4 as uuidv4 } from "uuid";
 
 function Root() {
-	const [doWorkout, setDoWorkout] = useState<boolean>(true);
+	const [doWorkout, setDoWorkout] = useState<boolean>(false);
 	const [data, setData] = useState<Data>(() => {
 		const saved =
 			localStorage.getItem("data") ??
@@ -119,82 +119,93 @@ function Root() {
 						)} */}
 				</div>
 			</Transition>
-			<div className="mx-auto flex w-1/2 flex-col items-center">
-				<h1 className="py-6">workout assistant</h1>
-				<div className="flex w-full flex-col gap-6">
-					<div className="flex gap-3 pt-6">
-						<div className="flex grow gap-0.5">
-							<div className="relative flex grow flex-col">
-								<span className="absolute -top-5 text-sm">workout</span>
-								<select onChange={(e) => setWorkoutIdx(Number(e.target.value))} className="input grow !bg-neutral-200">
-									{data.workouts.map((exercise, i) => (
-										// todo: key
-										<option key={i} value={i}>
-											{exercise.name}
-										</option>
-									))}
-								</select>
-							</div>
-							<button className="btn px-14">import</button>
-							<button className="btn px-14">export</button>
+			<div className="mx-auto flex w-3/5 flex-col items-center bg-white px-24 pb-10">
+				<div className="my-20 w-full">
+					<h1 className="text-5xl font-bold">WORKOUT ASSISTANT</h1>
+					<h2 className="text-xl font-semibold text-neutral-500">AUTOMATE YOUR EXERCISE</h2>
+				</div>
+				<div className="flex w-full flex-col gap-10">
+					<div className="flex h-14 gap-0.5 pt-3">
+						<div className="relative flex grow flex-col text-lg font-semibold">
+							<span className="absolute -top-4 text-xs italic text-neutral-500">WORKOUT</span>
+							<select onChange={(e) => setWorkoutIdx(Number(e.target.value))} className="input grow">
+								{data.workouts.map((exercise, i) => (
+									// todo: key
+									<option key={i} value={i}>
+										{exercise.name}
+									</option>
+								))}
+							</select>
 						</div>
-						<button className="btn" />
+						<button className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 hover:text-neutral-800">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="lucide lucide-pencil-line">
+								<path d="M12 20h9" />
+								<path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
+								<path d="m15 5 3 3" />
+							</svg>
+						</button>
+						<button className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 hover:text-neutral-800">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="lucide lucide-trash-2">
+								<path d="M3 6h18" />
+								<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+								<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+								<line x1="10" x2="10" y1="11" y2="17" />
+								<line x1="14" x2="14" y1="11" y2="17" />
+							</svg>
+						</button>
+						<button className="ml-5 flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 hover:text-neutral-800">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="lucide lucide-plus">
+								<path d="M5 12h14" />
+								<path d="M12 5v14" />
+							</svg>
+						</button>
 					</div>
-					<div className="mx-5 h-0.5 bg-neutral-300" />
 					<div className="flex flex-col gap-5">
-						<div className="flex gap-3 pt-3">
-							<div className="flex grow gap-0.5">
-								<div className="relative flex grow flex-col">
-									<span className="absolute -top-5 text-sm">workout name</span>
-									<input
-										type="text"
-										key={workoutIdx}
-										defaultValue={data.workouts[workoutIdx].name}
-										onChange={(e) => {
-											const copy = { ...data };
-											copy.workouts[workoutIdx].name = e.target.value;
-
-											setData({ ...copy });
-										}}
-										className="input grow"
-									/>
+						<div className="flex flex-col items-center gap-1.5">
+							<div className="mb-2 grid h-10 w-full grid-cols-9 gap-0.5 bg-sky-600 font-semibold text-white">
+								<div className="col-span-5 flex items-center border-r-2 border-white px-2">
+									<h3>EXERCISE</h3>
 								</div>
-								<div className="relative flex flex-col">
-									<span className="absolute -top-5 text-sm">default exercise rest</span>
-									<input
-										type="number"
-										key={workoutIdx}
-										defaultValue={data.workouts[workoutIdx].exerciseRest}
-										onChange={(e) => {
-											const copy = { ...data };
-											copy.workouts[workoutIdx].exerciseRest = Number(e.target.value);
-
-											setData({ ...copy });
-										}}
-										className="input w-40 grow"
-									/>
+								<div className="flex items-center border-r-2 border-white px-2">
+									<h3>SETS</h3>
 								</div>
-								<div className="relative flex flex-col">
-									<span className="absolute -top-5 text-sm">default set rest</span>
-									<input
-										type="number"
-										key={workoutIdx}
-										defaultValue={data.workouts[workoutIdx].setRest}
-										onChange={(e) => {
-											const copy = { ...data };
-											copy.workouts[workoutIdx].setRest = Number(e.target.value);
-
-											setData({ ...copy });
-										}}
-										className="input w-40 grow"
-									/>
+								<div className="flex items-center border-r-2 border-white px-2">
+									<h3>REPS</h3>
+								</div>
+								<div className="col-span-2 flex items-center px-2">
+									<h3>REST BETWEEN SETS</h3>
 								</div>
 							</div>
-							<button onClick={startWorkout} className="btn px-14">
-								start workout
-							</button>
-						</div>
-						<div className="flex flex-col items-center gap-1.5 p-2 ring-2 ring-inset ring-neutral-200">
 							{data.workouts[workoutIdx].exercises.length > 0 ? (
 								data.workouts[workoutIdx].exercises.map((exercise, i) => (
 									<ExerciseCard
@@ -211,8 +222,29 @@ function Root() {
 								<span>empty</span>
 							)}
 						</div>
-						<button onClick={addExercise} className="btn mx-auto">
-							add exercise
+						<button
+							onClick={addExercise}
+							className="mx-auto flex aspect-square w-10 items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-sky-600 hover:text-white">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="lucide lucide-plus">
+								<path d="M5 12h14" />
+								<path d="M12 5v14" />
+							</svg>
+						</button>
+						<button onClick={startWorkout} className="group relative mx-auto h-14 w-1/3 transition-all">
+							<div className="absolute left-0 top-0 h-full w-full bg-sky-600 duration-75 group-hover:-skew-x-12 group-hover:bg-sky-600" />
+							<h1 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold text-white">
+								START WORKOUT
+							</h1>
 						</button>
 					</div>
 				</div>

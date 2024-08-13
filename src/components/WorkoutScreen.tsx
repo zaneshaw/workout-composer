@@ -15,7 +15,7 @@ const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
 					{/* side bar */}
 					<div className="shadow-r-md z-10 w-1/4 shrink-0 break-all bg-neutral-50">
 						<div className="flex justify-center border-b-2 border-neutral-300 py-10">
-							<h1 className="font-bold italic text-neutral-800">UP NEXT</h1>
+							<h1 className="font-bold italic">UP NEXT</h1>
 						</div>
 						<div className="relative mx-5 my-5 flex flex-col text-lg font-semibold text-neutral-600">
 							<div className="absolute left-0 top-[18px] animate-bounceright">
@@ -68,11 +68,11 @@ const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
 					{/* action area (?) */}
 					<div className="relative my-10 flex grow flex-col items-center break-all">
 						<div className="flex w-full flex-col px-16">
-							<h1 className="text-5xl font-bold text-neutral-800">Bent Over Dumbbell Row</h1>
+							<h1 className="text-5xl font-bold">Bent Over Dumbbell Row</h1>
 							<h2 className="font-semibold text-neutral-500">monday's workout</h2>
 						</div>
 						<div className="relative flex w-full grow flex-col items-center justify-center gap-1">
-							<h1 className="text-8xl font-semibold italic text-neutral-800">SET 1</h1>
+							<h1 className="text-8xl font-semibold italic">SET 1</h1>
 							<h2 className="text-3xl font-semibold text-neutral-500">10-12 REPS</h2>
 							<div className="absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 *:h-[60vh] *:w-[60vw] *:stroke-neutral-100">
 								<svg
@@ -93,7 +93,7 @@ const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
 							</div>
 						</div>
 						{/* <div className="relative flex w-full grow flex-col items-center justify-center gap-1">
-							<h1 className="mb-16 text-8xl font-semibold italic text-neutral-800">REST</h1>
+							<h1 className="mb-16 text-8xl font-semibold italic">REST</h1>
 							<h2 className="text-2xl font-semibold text-neutral-500">2ND SET IN</h2>
 							<h2 className="text-5xl font-semibold text-neutral-700">21 seconds</h2>
 							<div className="absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 *:h-[60vh] *:w-[60vw] *:stroke-neutral-100">
@@ -139,7 +139,7 @@ const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
 				</div>
 
 				{/* bottom bar */}
-				<div className="shadow-t-md z-20 flex h-20 justify-between bg-neutral-50 font-semibold text-black">
+				<div className="shadow-t-md z-20 flex h-20 justify-between bg-neutral-50 font-semibold">
 					{/* placeholder */}
 					<div className="flex h-full flex-1 items-center">
 						<div className="flex h-full w-full items-center px-10">
@@ -170,7 +170,7 @@ const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
 
 						{/* next button */}
 						<button className="flex h-full w-80 flex-col items-center justify-center italic hover:bg-neutral-200">
-							<span className="text-2xl font-bold leading-none text-neutral-800">FINISH SET</span>
+							<span className="text-2xl font-bold leading-none">FINISH SET</span>
 							<span className="text-sm font-normal leading-none text-neutral-500">(space)</span>
 						</button>
 

@@ -32,13 +32,13 @@ const ExerciseScreen: React.FC<Props> = ({ workout, exercise, set, last, onNext,
 				<h1 className="absolute -right-24 bottom-4 w-max text-3xl text-neutral-400">/ {exercise.sets} sets</h1>
 			</div>
 			<div className="flex gap-1 text-2xl">
-				<button onClick={onStopWorkout} className="btn flex aspect-square h-full grow items-center justify-center gap-3">
+				<button onClick={onStopWorkout} className="flex aspect-square h-full grow items-center justify-center gap-3">
 					<svg viewBox="0 0 24 24" fill="none" color="#737373" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7">
 						<path d="M18 6 6 18" />
 						<path d="m6 6 12 12" />
 					</svg>
 				</button>
-				<button onClick={onNext} className="btn flex w-full items-center justify-center gap-1.5 px-24 py-6">
+				<button onClick={onNext} className="flex w-full items-center justify-center gap-1.5 px-24 py-6">
 					<span>finish</span>
 					{/* {set == exercise.sets ? <span className="italic">{exercise.name}</span> : <span>set {set}</span>} */}
 					{last ? <span>workout</span> : set == exercise.sets ? <span>exercise</span> : <span>set</span>}

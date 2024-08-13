@@ -6,8 +6,8 @@ export default {
 			animation: {
 				halfspin: "halfspin 3s cubic-bezier(0.88, -0.3, 0.12, 1.3) infinite",
 				flex: "flex 3s ease-in-out infinite",
-				bounceleft: "bounceleft 1s infinite",
-				bounceright: "bounceright 1s infinite",
+				bounceleft: "bounceleft 0.5s infinite",
+				bounceright: "bounceright 0.5s infinite",
 			},
 			keyframes: {
 				halfspin: {
