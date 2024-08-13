@@ -8,6 +8,8 @@ export default {
 				flex: "flex 3s ease-in-out infinite",
 				bounceleft: "bounceleft 0.5s infinite",
 				bounceright: "bounceright 0.5s infinite",
+				bgscrolldown: "bgscrolldown 10s linear infinite",
+				bgscrollup: "bgscrollup 10s linear infinite",
 			},
 			keyframes: {
 				halfspin: {
@@ -38,6 +40,22 @@ export default {
 					"50%": {
 						transform: "translateX(0)",
 						animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+					},
+				},
+				bgscrolldown: {
+					"0%": {
+						transform: "translate(300px, -300px)",
+					},
+					"100%": {
+						transform: "translate(0, 0)",
+					},
+				},
+				bgscrollup: {
+					"0%": {
+						transform: "translate(-300px, 300px)",
+					},
+					"100%": {
+						transform: "translate(0, 0)",
 					},
 				},
 			},

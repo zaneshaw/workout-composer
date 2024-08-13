@@ -96,6 +96,20 @@ function Root() {
 
 	return (
 		<>
+			<div className="fixed -z-50 h-screen w-screen overflow-hidden bg-neutral-100">
+				<div className="absolute -left-1/2 -top-1/2 h-[200vh] w-[200vw] overflow-hidden">
+					<div
+						className="animate-bgscrollup h-full w-full pt-5"
+						style={{ backgroundImage: 'url("/dumbbell.svg")', backgroundRepeat: "repeat" }}
+					/>
+				</div>
+				<div className="absolute -left-1/2 -top-1/2 h-[200vh] w-[200vw] overflow-hidden">
+					<div
+						className="animate-bgscrolldown h-full w-full pt-5"
+						style={{ backgroundImage: 'url("/bicep.svg")', backgroundRepeat: "repeat" }}
+					/>
+				</div>
+			</div>
 			<Transition show={doWorkout}>
 				<div className="fixed inset-0 z-50 bg-white transition-all duration-300 data-[closed]:translate-x-full">
 					<WorkoutScreen data={data} onStopWorkout={stopWorkout} />
