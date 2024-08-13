@@ -135,7 +135,7 @@ function Root() {
 			</Transition>
 			<div className="mx-auto flex w-3/5 flex-col items-center bg-white px-24 pb-10">
 				<div className="my-20 w-full">
-					<h1 className="text-5xl font-bold">WORKOUT ASSISTANT</h1>
+					<h1 className="text-5xl font-bold">WORKOUT COMPOSER</h1>
 					<h2 className="text-xl font-semibold text-neutral-500">AUTOMATE YOUR EXERCISE</h2>
 				</div>
 				<div className="flex w-full flex-col gap-10">

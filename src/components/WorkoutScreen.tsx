@@ -143,7 +143,7 @@ const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
 					{/* placeholder */}
 					<div className="flex h-full flex-1 items-center">
 						<div className="flex h-full w-full items-center px-10">
-							<span>WORKOUT ASSISTANT</span>
+							<span>WORKOUT COMPOSER</span>
 						</div>
 					</div>
 
