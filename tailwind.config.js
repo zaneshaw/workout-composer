@@ -4,7 +4,7 @@ export default {
 	theme: {
 		extend: {
 			animation: {
-				halfspin: "halfspin 3s cubic-bezier(0.88, -0.3, 0.12, 1.3) infinite",
+				halfspin: "halfspin 3s infinite",
 				flex: "flex 3s ease-in-out infinite",
 				bounceleft: "bounceleft 0.5s infinite",
 				bounceright: "bounceright 0.5s infinite",
@@ -13,14 +13,16 @@ export default {
 			},
 			keyframes: {
 				halfspin: {
-					"0%, 30%": { transform: "rotate(0deg)" },
-					"60%, 100%": { transform: "rotate(180deg)" },
+					"0%, 50%": { transform: "rotate(0deg)", animationTimingFunction: "cubic-bezier(0.88, -0.3, 0.12, 1.3)" },
+					"90%": { transform: "rotate(183deg)", animationTimingFunction: "cubic-bezier(0.33, 1, 0.68, 1)" },
+					"100%": { transform: "rotate(180deg)" },
 				},
 				flex: {
-					"0%, 45%, 80%, 100%": { transform: "scaleY(1)" },
-					"50%": { transform: "scale(1.05, 0.9)" },
-					"70%": { transform: "scale(1.07, 0.88)" },
-					"75%": { transform: "scale(0.97, 1.03)" },
+					"0%, 65%": { transform: "scaleY(1)" },
+					"70%": { transform: "scale(1.05, 0.9)" },
+					"90%": { transform: "scale(1.07, 0.88)" },
+					"95%": { transform: "scale(0.97, 1.03)" },
+					"100%": { transform: "scaleY(1)" },
 				},
 				bounceleft: {
 					"0%, 100%": {
