@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-	html {
+	body {
 		@apply text-neutral-800;
 		scrollbar-gutter: stable;
 	}

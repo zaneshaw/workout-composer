@@ -20,6 +20,19 @@ function Root() {
 	const [currentSet, setCurrentSet] = useState(1);
 	const [isResting, setIsResting] = useState(false);
 	useEffect(() => {
+		if (doWorkout) {
+			setTimeout(() => {
+				document.body.style.overflowY = "hidden"
+				document.body.style.scrollbarGutter = "auto";
+			}, 300 - 100);
+		} else {
+			setTimeout(() => {
+				document.body.style.overflowY = "visible"
+				document.body.style.scrollbarGutter = "stable";
+			}, 100);
+		}
+	}, [doWorkout]);
+	useEffect(() => {
 		localStorage.setItem("data", JSON.stringify(data));
 	}, [data]);
 
