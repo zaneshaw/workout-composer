@@ -22,13 +22,13 @@ function Root() {
 	useEffect(() => {
 		if (doWorkout) {
 			setTimeout(() => {
-				document.body.style.overflowY = "hidden"
-				document.body.style.scrollbarGutter = "auto";
+				document.querySelector("html")!.style.overflowY = "hidden";
+				document.querySelector("html")!.style.scrollbarGutter = "auto";
 			}, 300 - 100);
 		} else {
 			setTimeout(() => {
-				document.body.style.overflowY = "visible"
-				document.body.style.scrollbarGutter = "stable";
+				document.querySelector("html")!.style.overflowY = "visible";
+				document.querySelector("html")!.style.scrollbarGutter = "stable";
 			}, 100);
 		}
 	}, [doWorkout]);
@@ -112,13 +112,13 @@ function Root() {
 			<div className="fixed -z-50 h-screen w-screen overflow-hidden bg-neutral-100">
 				<div className="absolute -left-1/2 -top-1/2 h-[200vh] w-[200vw] overflow-hidden">
 					<div
-						className="animate-bgscrollup h-full w-full pt-5"
+						className="h-full w-full animate-bgscrollup pt-5"
 						style={{ backgroundImage: 'url("/dumbbell.svg")', backgroundRepeat: "repeat" }}
 					/>
 				</div>
 				<div className="absolute -left-1/2 -top-1/2 h-[200vh] w-[200vw] overflow-hidden">
 					<div
-						className="animate-bgscrolldown h-full w-full pt-5"
+						className="h-full w-full animate-bgscrolldown pt-5"
 						style={{ backgroundImage: 'url("/bicep.svg")', backgroundRepeat: "repeat" }}
 					/>
 				</div>
@@ -146,9 +146,9 @@ function Root() {
 						)} */}
 				</div>
 			</Transition>
-			<div className="mx-auto flex w-3/5 flex-col items-center bg-white px-24 pb-10">
-				<div className="my-20 w-full">
-					<h1 className="text-5xl font-bold">WORKOUT COMPOSER</h1>
+			<div className="mx-auto flex w-3/5 flex-col items-center bg-white px-24 pb-10 shadow-2xl">
+				<div className="group my-20 w-full">
+					<h1 className="text-5xl font-bold transition-[padding] group-hover:pl-2">WORKOUT COMPOSER</h1>
 					<h2 className="text-xl font-semibold text-neutral-500">AUTOMATE YOUR EXERCISE</h2>
 				</div>
 				<div className="flex w-full flex-col gap-10">
@@ -219,18 +219,20 @@ function Root() {
 					</div>
 					<div className="flex flex-col gap-5">
 						<div className="flex flex-col items-center gap-1.5">
-							<div className="mb-2 grid h-10 w-full grid-cols-9 gap-0.5 bg-sky-600 font-semibold text-white">
-								<div className="col-span-5 flex items-center border-r-2 border-white px-2">
+							<div className="mb-2 grid h-10 w-full grid-cols-9 gap-0.5 border-b-4 border-sky-600 font-semibold text-sky-600">
+								<div className="col-span-5 flex items-center px-2">
 									<h3>EXERCISE</h3>
 								</div>
-								<div className="flex items-center border-r-2 border-white px-2">
+								<div className="flex items-center px-2">
 									<h3>SETS</h3>
 								</div>
-								<div className="flex items-center border-r-2 border-white px-2">
+								<div className="flex items-center px-2">
 									<h3>REPS</h3>
 								</div>
 								<div className="col-span-2 flex items-center px-2">
-									<h3>REST BETWEEN SETS</h3>
+									<h3>
+										REST <span className="mt-0.5 text-xs">(BETWEEN SETS)</span>
+									</h3>
 								</div>
 							</div>
 							{data.workouts[workoutIdx].exercises.length > 0 ? (
@@ -267,11 +269,14 @@ function Root() {
 								<path d="M12 5v14" />
 							</svg>
 						</button>
-						<button onClick={startWorkout} className="group relative mx-auto h-14 w-1/3 transition-all">
-							<div className="absolute left-0 top-0 h-full w-full bg-sky-600 duration-75 group-hover:-skew-x-12 group-hover:bg-sky-600" />
-							<h1 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold text-white">
-								START WORKOUT
-							</h1>
+						<button onClick={startWorkout} className="group relative mx-auto h-14 w-1/3 duration-75">
+							<div className="absolute left-0 top-0 z-10 h-full w-full">
+								<div className="absolute left-0 top-0 h-full w-full bg-sky-600 transition-transform group-hover:-skew-x-6 group-hover:bg-sky-600" />
+								<h1 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold text-white transition-[font-size] group-hover:text-[2rem]">
+									START WORKOUT
+								</h1>
+							</div>
+							<div className="absolute left-1/2 top-1/2 h-[90%] w-full -translate-x-1/2 -translate-y-1/2 bg-sky-700 transition-[transform,width] group-hover:w-[105%] group-hover:-skew-x-6"></div>
 						</button>
 					</div>
 				</div>
