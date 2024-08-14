@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+	html {
+		@apply bg-neutral-100;
+	}
+
 	body {
 		@apply text-neutral-800;
 		scrollbar-gutter: stable;
@@ -40,5 +44,15 @@
 
 	.btn:active {
 		@apply bg-blue-300;
+	}
+
+	.no-spinner {
+		-moz-appearance: textfield;
+	}
+
+	.no-spinner::-webkit-outer-spin-button,
+	.no-spinner::-webkit-inner-spin-button {
+		margin: 0;
+		-webkit-appearance: none;
 	}
 }

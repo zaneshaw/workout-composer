@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 type Props = { workout: Workout; exercise: Exercise; currentSet: number; onNext: () => void; onStopWorkout: () => void };
 const RestScreen: React.FC<Props> = ({ workout, exercise, currentSet, onNext, onStopWorkout }: Props) => {
-	const [timeLeft, setTimeLeft] = useState(currentSet == exercise.sets ? (exercise.rest ?? workout.exerciseRest) : workout.setRest);
+	const [timeLeft, setTimeLeft] = useState(currentSet == exercise.sets ? (exercise.restAfterExercise ?? workout.exerciseRest) : workout.restBetweenSets);
 	useEffect(() => {
 		const onKeydown = (e: KeyboardEvent) => {
 			e.preventDefault();
@@ -39,7 +39,7 @@ const RestScreen: React.FC<Props> = ({ workout, exercise, currentSet, onNext, on
 					<h2 className="text-8xl">{exercise.name}</h2>
 					<h3 className="ml-1 text-xl font-semibold text-neutral-400">{workout.name}</h3>
 				</div>
-				<h2 className="text-5xl">{currentSet == exercise.sets ? "exercise rest time" : "set rest time"}</h2>
+				<h2 className="text-5xl">{currentSet == exercise.sets ? "exercise restAfterExercise time" : "set restAfterExercise time"}</h2>
 			</div>
 			<div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-end gap-5">
 				<h1 className="mx-auto text-[12rem] leading-none">{timeLeft}</h1>
@@ -53,7 +53,7 @@ const RestScreen: React.FC<Props> = ({ workout, exercise, currentSet, onNext, on
 					</svg>
 				</button>
 				<button onClick={onNext} className="flex w-full items-center justify-center gap-1.5 px-24 py-6">
-					<span>skip rest</span>
+					<span>skip restAfterExercise</span>
 					<span className="font-semibold text-neutral-500">(space)</span>
 				</button>
 			</div>

@@ -1,110 +1,104 @@
-import { Data, Exercise, Workout } from "@/types/data";
-import { useEffect, useState } from "react";
-import { Transition, TransitionChild } from "@headlessui/react";
-import ExerciseCard from "@/components/ExerciseCard";
-import ExerciseScreen from "@/components/ExerciseScreen";
-import RestScreen from "@/components/RestScreen";
+import { Data, Workout } from "@/types/data";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Transition } from "@headlessui/react";
 import WorkoutScreen from "@/components/WorkoutScreen";
-import { v4 as uuidv4 } from "uuid";
+import ExerciseList from "@/components/ExerciseList";
 
 function Root() {
-	const [doWorkout, setDoWorkout] = useState<boolean>(false);
+	const [stage, setStage] = useState<"composer" | "workout">("composer");
+
 	const [data, setData] = useState<Data>(() => {
-		const saved =
-			localStorage.getItem("data") ??
-			'{"workouts": [{"name": "new workout", "exerciseRest": 30, "setRest": 15, "exercises": []}, {"name": "another workout", "exerciseRest": 25, "setRest": 10, "exercises": []}]}';
+		const saved = localStorage.getItem("data");
+		if (saved == null) {
+			const newData: Data = new Data();
+			const newWorkout: Workout = new Workout();
+			newWorkout.name = "New workout";
+			newData.workouts.push(newWorkout);
+
+			return newData;
+		}
+
 		return JSON.parse(saved);
 	});
-	const [workoutIdx, setWorkoutIdx] = useState(0);
-	const [exerciseIdx, setExerciseIdx] = useState(0);
-	const [currentSet, setCurrentSet] = useState(1);
-	const [isResting, setIsResting] = useState(false);
 	useEffect(() => {
-		if (doWorkout) {
+		localStorage.setItem("data", JSON.stringify(data));
+	}, [data]);
+
+	const workoutDropdown = useRef<HTMLSelectElement>(null);
+
+	const [currentWorkout, setCurrentWorkout] = useState<number>(0);
+	useEffect(() => {
+		if (workoutDropdown.current) {
+			workoutDropdown.current.value = currentWorkout.toString();
+		}
+	}, [currentWorkout]);
+
+	useEffect(() => {
+		if (stage == "workout") {
 			setTimeout(() => {
 				document.querySelector("html")!.style.overflowY = "hidden";
 				document.querySelector("html")!.style.scrollbarGutter = "auto";
 			}, 300 - 100);
-		} else {
+		} else if (stage == "composer") {
 			setTimeout(() => {
 				document.querySelector("html")!.style.overflowY = "visible";
 				document.querySelector("html")!.style.scrollbarGutter = "stable";
 			}, 100);
 		}
-	}, [doWorkout]);
-	useEffect(() => {
-		localStorage.setItem("data", JSON.stringify(data));
-	}, [data]);
+	}, [stage]);
 
-	function onExerciseUpdated(i: number, name: string, sets: number, rest?: number) {
-		const copy = { ...data };
-		copy.workouts[workoutIdx].exercises[i] = { name, sets, rest, key: data.workouts[workoutIdx].exercises[i]!.key };
+	function selectWorkout(e: ChangeEvent) {
+		const target = e.target as HTMLSelectElement;
+		setCurrentWorkout(Number(target.value));
+	}
 
-		setData({ ...copy });
+	function addWorkout() {
+		const res = prompt("New workout name");
+		if (res) {
+			const copy = { ...data };
+
+			const workout: Workout = new Workout();
+			workout.name = res;
+			copy.workouts.push(workout);
+
+			setData({ ...copy });
+			setCurrentWorkout(copy.workouts.length - 1);
+		}
+	}
+
+	function renameWorkout() {
+		const res = prompt("New workout name", data.workouts[currentWorkout].name);
+		if (res) {
+			const copy = { ...data };
+
+			copy.workouts[currentWorkout].name = res;
+
+			setData({ ...copy });
+		}
+	}
+
+	function deleteWorkout() {
+		if (data.workouts.length > 1) {
+			const copy = { ...data };
+
+			copy.workouts.splice(currentWorkout, 1);
+
+			if (currentWorkout > 0) setCurrentWorkout(currentWorkout - 1);
+
+			setData({ ...copy });
+		} else {
+			alert("You must have at least one workout!");
+		}
 	}
 
 	function startWorkout() {
-		// todo: better validation
-		if (data.workouts[workoutIdx].exercises.includes(undefined)) {
-			return;
-		}
-		setDoWorkout(true);
+		// todo: validation
+		setStage("workout");
 	}
 
 	function stopWorkout() {
-		setDoWorkout(false);
-
-		// cursed: account for fade-out animation
-		setTimeout(() => {
-			setExerciseIdx(0);
-			setCurrentSet(1);
-			setIsResting(false);
-		}, 300);
-	}
-
-	function addExercise() {
-		const copy = { ...data };
-		copy.workouts[workoutIdx].exercises.push({ name: "new exercise", sets: 1, key: uuidv4() });
-
-		setData({ ...copy });
-	}
-
-	function deleteExercise(exercise: Exercise) {
-		const copy = { ...data };
-		copy.workouts[workoutIdx].exercises.splice(copy.workouts[workoutIdx].exercises.indexOf(exercise), 1);
-
-		setData({ ...copy });
-	}
-
-	function next() {
-		const workout: Workout = data.workouts[workoutIdx];
-		const exercise: Exercise = workout.exercises[exerciseIdx]!;
-
-		if (isResting) {
-			if (currentSet < exercise.sets) {
-				// next set
-				setCurrentSet(currentSet + 1);
-			} else {
-				// finish exercise
-				if (exerciseIdx < workout.exercises.length - 1) {
-					// next exercise
-					setExerciseIdx(exerciseIdx + 1);
-					setCurrentSet(1);
-				} else {
-					// fix: never actually happens. re-structure if statment
-					// finish workout
-					stopWorkout();
-					return;
-				}
-			}
-		} else if (currentSet == exercise.sets && exerciseIdx == workout.exercises.length - 1) {
-			// last set of last exercise
-			// finish workout
-			stopWorkout();
-			return;
-		}
-
-		setIsResting(!isResting);
+		// todo: workout reset
+		setStage("composer");
 	}
 
 	return (
@@ -123,7 +117,7 @@ function Root() {
 					/>
 				</div>
 			</div>
-			<Transition show={doWorkout}>
+			<Transition show={stage == "workout"}>
 				<div className="fixed inset-0 z-50 bg-white transition-all duration-300 data-[closed]:translate-x-full">
 					<WorkoutScreen data={data} onStopWorkout={stopWorkout} />
 					{/* {isResting ? (
@@ -155,7 +149,7 @@ function Root() {
 					<div className="flex h-14 gap-0.5 pt-3">
 						<div className="relative flex grow flex-col text-lg font-semibold">
 							<span className="absolute -top-4 text-xs italic text-neutral-500">WORKOUT</span>
-							<select onChange={(e) => setWorkoutIdx(Number(e.target.value))} className="input grow">
+							<select onChange={selectWorkout} ref={workoutDropdown} className="input grow">
 								{data.workouts.map((exercise, i) => (
 									// todo: key
 									<option key={i} value={i}>
@@ -164,7 +158,9 @@ function Root() {
 								))}
 							</select>
 						</div>
-						<button className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 hover:text-neutral-800">
+						<button
+							onClick={renameWorkout}
+							className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-sky-600 hover:text-white">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="24"
@@ -181,7 +177,9 @@ function Root() {
 								<path d="m15 5 3 3" />
 							</svg>
 						</button>
-						<button className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 hover:text-neutral-800">
+						<button
+							onClick={deleteWorkout}
+							className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-red-600 hover:text-white">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="24"
@@ -200,60 +198,9 @@ function Root() {
 								<line x1="14" x2="14" y1="11" y2="17" />
 							</svg>
 						</button>
-						<button className="ml-5 flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 hover:text-neutral-800">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								className="lucide lucide-plus">
-								<path d="M5 12h14" />
-								<path d="M12 5v14" />
-							</svg>
-						</button>
-					</div>
-					<div className="flex flex-col gap-5">
-						<div className="flex flex-col items-center gap-1.5">
-							<div className="mb-2 grid h-10 w-full grid-cols-9 gap-0.5 border-b-4 border-sky-600 font-semibold text-sky-600">
-								<div className="col-span-5 flex items-center px-2">
-									<h3>EXERCISE</h3>
-								</div>
-								<div className="flex items-center px-2">
-									<h3>SETS</h3>
-								</div>
-								<div className="flex items-center px-2">
-									<h3>REPS</h3>
-								</div>
-								<div className="col-span-2 flex items-center px-2">
-									<h3>
-										REST <span className="mt-0.5 text-xs">(BETWEEN SETS)</span>
-									</h3>
-								</div>
-							</div>
-							{data.workouts[workoutIdx].exercises.length > 0 ? (
-								data.workouts[workoutIdx].exercises.map((exercise, i) => (
-									<ExerciseCard
-										workout={data.workouts[workoutIdx]}
-										exercise={exercise!}
-										i={i}
-										key={exercise!.key}
-										last={i == data.workouts[workoutIdx].exercises.length - 1}
-										onExerciseUpdated={onExerciseUpdated}
-										deleteExercise={deleteExercise}
-									/>
-								))
-							) : (
-								<span>empty</span>
-							)}
-						</div>
 						<button
-							onClick={addExercise}
-							className="mx-auto flex aspect-square w-10 items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-sky-600 hover:text-white">
+							onClick={addWorkout}
+							className="ml-5 flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-sky-600 hover:text-white">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="24"
@@ -269,16 +216,13 @@ function Root() {
 								<path d="M12 5v14" />
 							</svg>
 						</button>
-						<button onClick={startWorkout} className="group relative mx-auto h-14 w-1/3 duration-75">
-							<div className="absolute left-0 top-0 z-10 h-full w-full">
-								<div className="absolute left-0 top-0 h-full w-full bg-sky-600 transition-transform group-hover:-skew-x-6 group-hover:bg-sky-600" />
-								<h1 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold text-white transition-[font-size] group-hover:text-[2rem]">
-									START WORKOUT
-								</h1>
-							</div>
-							<div className="absolute left-1/2 top-1/2 h-[90%] w-full -translate-x-1/2 -translate-y-1/2 bg-sky-700 transition-[transform,width] group-hover:w-[105%] group-hover:-skew-x-6"></div>
-						</button>
 					</div>
+					<ExerciseList
+						workout={data.workouts[currentWorkout]}
+						data={data}
+						setData={setData}
+						onStartWorkout={startWorkout}
+					/>
 				</div>
 			</div>
 		</>
