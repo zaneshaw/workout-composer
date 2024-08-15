@@ -140,7 +140,7 @@ function Root() {
 						)} */}
 				</div>
 			</Transition>
-			<div className="mx-auto my-4 flex min-h-[calc(100vh-2rem)] w-3/5 flex-col items-center bg-white px-24 pb-10 shadow-2xl">
+			<div className="mx-auto flex min-h-[calc(100vh-2rem)] flex-col items-center bg-white px-24 pb-10 shadow-2xl">
 				<div className="group my-20 w-full">
 					<h1 className="text-5xl font-bold transition-[padding] group-hover:pl-2">WORKOUT COMPOSER</h1>
 					<h2 className="text-xl font-semibold text-neutral-500">AUTOMATE YOUR EXERCISE</h2>

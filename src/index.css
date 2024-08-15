@@ -8,7 +8,7 @@
 	}
 
 	body {
-		@apply text-neutral-800;
+		@apply px-[max(1rem,calc(0.5*max(0px,calc(100%-1150px))))] py-4 text-neutral-800;
 		scrollbar-gutter: stable;
 	}
 
