@@ -103,7 +103,7 @@ function Root() {
 
 	return (
 		<>
-			<div className="fixed -z-50 h-screen w-screen overflow-hidden bg-neutral-100">
+			<div className="fixed left-0 top-0 -z-50 h-screen w-screen overflow-hidden bg-neutral-100">
 				<div className="absolute -left-1/2 -top-1/2 h-[200vh] w-[200vw] overflow-hidden">
 					<div
 						className="h-full w-full animate-bgscrollup pt-5"
@@ -140,7 +140,7 @@ function Root() {
 						)} */}
 				</div>
 			</Transition>
-			<div className="mx-auto flex w-3/5 flex-col items-center bg-white px-24 pb-10 shadow-2xl">
+			<div className="mx-auto my-4 flex min-h-[calc(100vh-2rem)] w-3/5 flex-col items-center bg-white px-24 pb-10 shadow-2xl">
 				<div className="group my-20 w-full">
 					<h1 className="text-5xl font-bold transition-[padding] group-hover:pl-2">WORKOUT COMPOSER</h1>
 					<h2 className="text-xl font-semibold text-neutral-500">AUTOMATE YOUR EXERCISE</h2>
@@ -223,6 +223,88 @@ function Root() {
 						setData={setData}
 						onStartWorkout={startWorkout}
 					/>
+				</div>
+				<div className="mt-auto flex w-full justify-between pt-20 text-sm font-semibold text-neutral-400">
+					<a
+						href="https://squidee.dev"
+						target="_blank"
+						className="flex gap-0.5 transition-colors hover:text-sky-600">
+						SQUIDEE.DEV
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							className="lucide lucide-arrow-up-right mb-auto h-4 w-4">
+							<path d="M7 7h10v10" />
+							<path d="M7 17 17 7" />
+						</svg>
+					</a>
+					<div className="flex gap-10">
+						<a href="" target="_blank" className="flex items-center gap-1 transition-colors hover:text-sky-600">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="lucide lucide-circle-help h-5 w-5">
+								<circle cx="12" cy="12" r="10" />
+								<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+								<path d="M12 17h.01" />
+							</svg>
+							<div className="flex h-full items-center gap-0.5">
+								SUGGEST A FEATURE
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									className="lucide lucide-arrow-up-right mb-auto h-4 w-4">
+									<path d="M7 7h10v10" />
+									<path d="M7 17 17 7" />
+								</svg>
+							</div>
+						</a>
+						<a href="" target="_blank" className="flex items-center gap-1 transition-colors hover:text-red-700">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="lucide lucide-octagon-alert h-5 w-5">
+								<path d="M12 16h.01" />
+								<path d="M12 8v4" />
+								<path d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
+							</svg>
+							<div className="flex h-full items-center gap-0.5">
+								REPORT AN ISSUE
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									className="lucide lucide-arrow-up-right mb-auto h-4 w-4">
+									<path d="M7 7h10v10" />
+									<path d="M7 17 17 7" />
+								</svg>
+							</div>
+						</a>
+					</div>
 				</div>
 			</div>
 		</>
