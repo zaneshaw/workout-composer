@@ -53,7 +53,7 @@ function Root() {
 	}
 
 	function addWorkout() {
-		const res = prompt("New workout name");
+		const res = prompt("New workout name:");
 		if (res) {
 			const copy = { ...data };
 
@@ -67,7 +67,7 @@ function Root() {
 	}
 
 	function renameWorkout() {
-		const res = prompt("New workout name", data.workouts[currentWorkout].name);
+		const res = prompt("New workout name:", data.workouts[currentWorkout].name);
 		if (res) {
 			const copy = { ...data };
 
@@ -79,15 +79,18 @@ function Root() {
 
 	function deleteWorkout() {
 		if (data.workouts.length > 1) {
-			const copy = { ...data };
+			const res = confirm(`Are you sure you want to delete:\n${data.workouts[currentWorkout].name}`);
+			if (res) {
+				const copy = { ...data };
 
-			copy.workouts.splice(currentWorkout, 1);
+				copy.workouts.splice(currentWorkout, 1);
 
-			if (currentWorkout > 0) setCurrentWorkout(currentWorkout - 1);
+				if (currentWorkout > 0) setCurrentWorkout(currentWorkout - 1);
 
-			setData({ ...copy });
+				setData({ ...copy });
+			}
 		} else {
-			alert("You must have at least one workout!");
+			alert("You can't delete your only workout!");
 		}
 	}
 
