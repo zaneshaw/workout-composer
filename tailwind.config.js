@@ -8,8 +8,8 @@ export default {
 				flex: "flex 3s ease-in-out infinite",
 				bounceleft: "bounceleft 0.5s infinite",
 				bounceright: "bounceright 0.5s infinite",
-				bgscrolldown: "bgscrolldown 10s linear infinite",
-				bgscrollup: "bgscrollup 10s linear infinite",
+				bgscrolldown: "bgscrolldown 13s linear infinite",
+				bgscrollup: "bgscrollup 13s linear infinite",
 			},
 			keyframes: {
 				halfspin: {
