@@ -35,15 +35,15 @@
 	}
 
 	.btn {
-		@apply w-fit bg-neutral-300 px-5 py-2;
+		@apply w-fit bg-neutral-200 font-semibold text-neutral-500 transition-colors duration-75;
 	}
 
 	.btn:hover {
-		@apply bg-blue-200;
+		@apply bg-sky-600 text-white;
 	}
 
 	.btn:active {
-		@apply bg-blue-300;
+		@apply bg-sky-500 text-white;
 	}
 
 	.no-spinner {

@@ -146,83 +146,71 @@ function Root() {
 					<h2 className="text-xl font-semibold text-neutral-500">AUTOMATE YOUR EXERCISE</h2>
 				</div>
 				<div className="flex w-full flex-col gap-10">
-					<div className="flex h-14 gap-0.5 pt-3">
-						<div className="relative flex grow flex-col text-lg font-semibold">
-							<span className="absolute -top-4 text-xs italic text-neutral-500">WORKOUT</span>
-							<select onChange={selectWorkout} ref={workoutDropdown} className="input grow">
-								{data.workouts.map((exercise, i) => (
-									// todo: key
-									<option key={i} value={i}>
-										{exercise.name}
-									</option>
-								))}
-							</select>
+					<div className="flex h-14 gap-5 pt-3">
+						<div className="flex grow gap-0.5">
+							<div className="relative flex grow flex-col text-lg font-semibold">
+								<span className="absolute -top-4 text-xs italic text-neutral-500">WORKOUT</span>
+								<select onChange={selectWorkout} ref={workoutDropdown} className="input grow">
+									{data.workouts.map((exercise, i) => (
+										// todo: key
+										<option key={i} value={i}>
+											{exercise.name}
+										</option>
+									))}
+								</select>
+							</div>
+							<button
+								onClick={renameWorkout}
+								className="btn flex aspect-square h-full items-center justify-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									className="lucide lucide-pencil-line">
+									<path d="M12 20h9" />
+									<path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
+									<path d="m15 5 3 3" />
+								</svg>
+							</button>
+							<button
+								onClick={deleteWorkout}
+								className="btn flex aspect-square h-full items-center justify-center hover:bg-red-600 hover:text-white active:bg-red-500">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									className="lucide lucide-trash-2">
+									<path d="M3 6h18" />
+									<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+									<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+									<line x1="10" x2="10" y1="11" y2="17" />
+									<line x1="14" x2="14" y1="11" y2="17" />
+								</svg>
+							</button>
 						</div>
-						<button
-							onClick={renameWorkout}
-							className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-sky-600 hover:text-white">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								className="lucide lucide-pencil-line">
-								<path d="M12 20h9" />
-								<path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z" />
-								<path d="m15 5 3 3" />
-							</svg>
+						<button onClick={addWorkout} className="btn px-6">
+							<span className="scale-150">ADD</span>
 						</button>
+						<div className="my-auto h-2/3 w-0.5 bg-neutral-200" />
 						<button
-							onClick={deleteWorkout}
-							className="flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-red-600 hover:text-white">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								className="lucide lucide-trash-2">
-								<path d="M3 6h18" />
-								<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-								<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-								<line x1="10" x2="10" y1="11" y2="17" />
-								<line x1="14" x2="14" y1="11" y2="17" />
-							</svg>
-						</button>
-						<button
-							onClick={addWorkout}
-							className="ml-5 flex aspect-square h-full items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-sky-600 hover:text-white">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								className="lucide lucide-plus">
-								<path d="M5 12h14" />
-								<path d="M12 5v14" />
-							</svg>
+							onClick={startWorkout}
+							className="btn bg-sky-600 px-14 text-white hover:bg-sky-700 active:bg-sky-500">
+							<span className="scale-150">START</span>
 						</button>
 					</div>
-					<ExerciseList
-						workout={data.workouts[currentWorkout]}
-						data={data}
-						setData={setData}
-						onStartWorkout={startWorkout}
-					/>
+					<ExerciseList workout={data.workouts[currentWorkout]} data={data} setData={setData} />
 				</div>
 				<div className="mt-auto flex w-full justify-between pt-20 text-sm font-semibold text-neutral-400">
 					<a
@@ -244,7 +232,10 @@ function Root() {
 						</svg>
 					</a>
 					<div className="flex gap-10">
-						<a href="" target="_blank" className="flex items-center gap-1 transition-colors hover:text-sky-600">
+						<a
+							href=""
+							target="_blank"
+							className="flex items-center gap-1 transition-colors hover:text-sky-600">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
@@ -274,7 +265,10 @@ function Root() {
 								</svg>
 							</div>
 						</a>
-						<a href="" target="_blank" className="flex items-center gap-1 transition-colors hover:text-red-700">
+						<a
+							href=""
+							target="_blank"
+							className="flex items-center gap-1 transition-colors hover:text-red-700">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"

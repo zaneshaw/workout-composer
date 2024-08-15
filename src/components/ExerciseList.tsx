@@ -6,11 +6,10 @@ type Props = {
 	workout: Workout;
 	data: Data;
 	setData: React.Dispatch<React.SetStateAction<Data>>;
-	onStartWorkout: () => void;
 };
 
 // todo: dont take data and setData as props
-const ExerciseList: React.FC<Props> = ({ workout, data, setData, onStartWorkout }: Props) => {
+const ExerciseList: React.FC<Props> = ({ workout, data, setData }: Props) => {
 	function addExercise() {
 		const copy = { ...data };
 
@@ -77,12 +76,10 @@ const ExerciseList: React.FC<Props> = ({ workout, data, setData, onStartWorkout 
 						/>
 					))
 				) : (
-					<span className="font-semibold text-neutral-500 italic">NO EXERCISES</span>
+					<span className="font-semibold italic text-neutral-500">NO EXERCISES</span>
 				)}
 			</div>
-			<button
-				onClick={addExercise}
-				className="mx-auto flex aspect-square w-10 items-center justify-center bg-neutral-200 text-neutral-500 transition-colors duration-75 hover:bg-sky-600 hover:text-white">
+			<button onClick={addExercise} className="btn mx-auto flex aspect-square w-10 items-center justify-center">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="24"
@@ -97,15 +94,6 @@ const ExerciseList: React.FC<Props> = ({ workout, data, setData, onStartWorkout 
 					<path d="M5 12h14" />
 					<path d="M12 5v14" />
 				</svg>
-			</button>
-			<button onClick={onStartWorkout} className="group relative mx-auto h-14 w-1/3 duration-75">
-				<div className="absolute left-0 top-0 z-10 h-full w-full">
-					<div className="absolute left-0 top-0 h-full w-full bg-sky-600 transition-transform group-hover:-skew-x-6 group-hover:bg-sky-600" />
-					<h1 className="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-3xl font-semibold text-white transition-[font-size] group-hover:text-[2rem]">
-						START WORKOUT
-					</h1>
-				</div>
-				<div className="absolute left-1/2 top-1/2 h-[90%] w-full -translate-x-1/2 -translate-y-1/2 bg-sky-700 transition-[transform,width] group-hover:w-[105%] group-hover:-skew-x-6"></div>
 			</button>
 		</div>
 	);
