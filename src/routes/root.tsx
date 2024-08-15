@@ -101,6 +101,13 @@ function Root() {
 		setStage("composer");
 	}
 
+	// 🤫
+	async function copySecret() {
+		await navigator.clipboard.writeText("74D1F5");
+		const res = confirm("SECRET COPIED TO CLIPBOARD\n\nREDIRECT TO SQUIDEE.DEV?");
+		if (res) window.location.href = "https://squidee.dev";
+	}
+
 	return (
 		<>
 			<div className="fixed left-0 top-0 -z-50 h-screen w-screen overflow-hidden bg-neutral-100">
@@ -140,7 +147,7 @@ function Root() {
 						)} */}
 				</div>
 			</Transition>
-			<div className="mx-auto flex min-h-[calc(100vh-2rem)] flex-col items-center bg-white px-24 pb-10 shadow-2xl">
+			<div className="relative mx-auto flex min-h-[calc(100vh-2rem)] flex-col items-center bg-white px-24 pb-10 shadow-2xl">
 				<div className="group my-20 w-full">
 					<h1 className="text-5xl font-bold transition-[padding] group-hover:pl-2">WORKOUT COMPOSER</h1>
 					<h2 className="text-xl font-semibold text-neutral-500">AUTOMATE YOUR EXERCISE</h2>
@@ -300,6 +307,11 @@ function Root() {
 						</a>
 					</div>
 				</div>
+				<span
+					onClick={copySecret}
+					className="absolute -bottom-3.5 right-0 select-none overflow-visible font-semibold leading-none text-neutral-400/30">
+					74D1F5
+				</span>
 			</div>
 		</>
 	);
