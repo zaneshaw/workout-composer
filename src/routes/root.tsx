@@ -129,7 +129,7 @@ function Root() {
 			</div>
 			<Transition show={stage == "workout"}>
 				<div className="fixed inset-0 z-50 bg-white transition-all duration-300 data-[closed]:translate-x-full">
-					<WorkoutScreen data={data} onStopWorkout={stopWorkout} />
+					<WorkoutScreen workout={data.workouts[currentWorkout]} onStopWorkout={stopWorkout} />
 					{/* {isResting ? (
 							<RestScreen
 								workout={data.workouts[workoutIdx]}

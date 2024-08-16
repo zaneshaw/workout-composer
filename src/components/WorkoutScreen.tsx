@@ -1,12 +1,35 @@
-import { Data } from "@/types/data";
-import React from "react";
+import { generateSteps, Workout } from "@/types/data";
+import React, { useRef, useState } from "react";
 
 type Props = {
-	data: Data;
+	workout: Workout;
 	onStopWorkout: () => void;
 };
 
-const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
+const WorkoutScreen: React.FC<Props> = ({ workout, onStopWorkout }: Props) => {
+	const [currentExercise, setCurrentExercise] = useState(0);
+	const steps = generateSteps(workout);
+
+	// const test = useRef<WorkoutStep[]>();
+	// console.log(test);
+
+	// const steps: [{name: string, subSteps: WorkoutStep[], finalRest?: number}] = [
+	// 	{
+	// 		name: "EXERCISE A",
+	// 		subSteps: [
+	// 			{
+	// 				kind: "exercise",
+	// 				reps: 4,
+	// 			},
+	// 			{
+	// 				kind: "rest",
+	// 				time: 15
+	// 			}
+	// 		],
+	// 		finalRest: 30
+	// 	}
+	// ];
+
 	return (
 		<>
 			<div className="flex h-full w-full flex-col">
@@ -38,30 +61,52 @@ const WorkoutScreen: React.FC<Props> = ({ data, onStopWorkout }: Props) => {
 									<polygon points="6 3 20 12 6 21 6 3" />
 								</svg>
 							</div>
-							<div className="flex justify-between px-5 py-3 text-sky-600">
-								<span>Bent Over Dumbbell Row</span>
-								<span>SET 1</span>
-							</div>
-							<div className="flex justify-between px-5 py-3 text-neutral-400">
-								<span>REST</span>
-								<span>
-									15<span className="text-sm">s</span>
-								</span>
-							</div>
-							<div className="flex justify-between px-5 py-3">
-								<span>Bent Over Dumbbell Row</span>
-								<span>SET 2</span>
-							</div>
-							<div className="flex justify-between px-5 py-3 text-neutral-400">
-								<span>REST</span>
-								<span>
-									15<span className="text-sm">s</span>
-								</span>
-							</div>
-							<div className="flex justify-between px-5 py-3">
-								<span>Bent Over Dumbbell Row</span>
-								<span>SET 3</span>
-							</div>
+							{steps.map((exercise, i) => (
+								(exercise.kind == "exercise")
+									? <div key={i} className="flex justify-between px-5 py-3">
+										<span>{exercise.label}</span>
+										<span>SET {exercise.set}</span>
+									</div>
+									: (exercise.isFinal)
+										? <div key={i}>
+											<div className="bg-neutral-200 w-full h-0.5 mx-auto my-10" />
+											<div className="flex justify-between px-5 py-3 text-neutral-400">
+												<span>REST</span>
+												<span>{exercise.time}s</span>
+											</div>
+											<div className="bg-neutral-200 w-full h-0.5 mx-auto my-10" />
+										</div>
+										: <div key={i} className="flex justify-between px-5 py-3 text-neutral-400">
+											<span>REST</span>
+											<span>{exercise.time}s</span>
+										</div>
+
+								// <div className="flex justify-between px-5 py-3 text-neutral-400">
+								// 	<span>REST</span>
+								// 	<span>
+								// 		15<span className="text-sm">s</span>
+								// 	</span>
+								// </div>
+							))}
+							{/* {workout.exercises.map((exercise, i) => (
+								<>
+									{Array.from({length: exercise.sets}).map((_, i) => (
+										<>
+											<div className="flex justify-between px-5 py-3">
+												<span>{exercise.name}</span>
+												<span>SET {i + 1}</span>
+											</div>
+											<div className="flex justify-between px-5 py-3 text-neutral-400">
+												<span>REST</span>
+												<span>
+													15<span className="text-sm">s</span>
+												</span>
+											</div>
+										</>
+									))}
+									<div className="bg-neutral-300 w-3/4 h-0.5 mx-auto my-10" />
+								</>
+							))} */}
 						</div>
 					</div>
 
