@@ -1,4 +1,5 @@
 import { ExerciseStep, generateSteps, Workout } from "@/types/data";
+import accurateInterval from "accurate-interval";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -8,10 +9,29 @@ type Props = {
 
 const WorkoutScreen: React.FC<Props> = ({ workout, onStopWorkout }: Props) => {
 	const [currentExercise, setCurrentExercise] = useState(0);
+	const [elapsedTime, setElapsedTime] = useState(0);
+	const [prettyElapsedTime, setPrettyElapsedTime] = useState("0:00");
 	const [listMargin, setListMargin] = useState(-1);
 	const [nextCooldown, setNextCooldown] = useState(false);
 
 	const steps = generateSteps(workout);
+
+	// idk if i did this right...
+	useEffect(() => {
+		const interval = accurateInterval(
+			() => {
+				setElapsedTime(elapsedTime + 1);
+			},
+			1000,
+			{ aligned: false, immediate: false }
+		);
+
+		setPrettyElapsedTime(`${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, "0")}`);
+
+		return () => {
+			interval.clear();
+		};
+	}, [elapsedTime]);
 
 	async function startCooldown(ms: number) {
 		setNextCooldown(true);
@@ -262,7 +282,7 @@ const WorkoutScreen: React.FC<Props> = ({ workout, onStopWorkout }: Props) => {
 							<line x1="12" x2="15" y1="14" y2="11" />
 							<circle cx="12" cy="14" r="8" />
 						</svg>
-						<span>3:53</span>
+						<span className="min-w-8">{prettyElapsedTime}</span>
 					</div>
 				</div>
 			</div>
