@@ -173,28 +173,10 @@ const WorkoutScreen: React.FC<Props> = ({ workout, onStopWorkout }: Props) => {
 					<div className="absolute -bottom-5 flex h-10 w-full flex-1 items-center">
 						<div className="flex h-full w-full items-center px-10">
 							<div className="flex h-1/3 w-full gap-0.5">
-								<div className="flex grow bg-neutral-300">
+								<div className="flex grow bg-neutral-200">
 									<div
 										className="bg-sky-600 transition-[width]"
-										style={{ width: (3 / 3) * 100 + "%" }}
-									/>
-								</div>
-								<div className="flex grow bg-neutral-300">
-									<div
-										className="bg-sky-600 transition-[width]"
-										style={{ width: (3 / 3) * 100 + "%" }}
-									/>
-								</div>
-								<div className="flex grow bg-neutral-300">
-									<div
-										className="bg-sky-600 transition-[width]"
-										style={{ width: (1 / 3) * 100 + "%" }}
-									/>
-								</div>
-								<div className="flex grow bg-neutral-300">
-									<div
-										className="bg-sky-600 transition-[width]"
-										style={{ width: (0 / 3) * 100 + "%" }}
+										style={{ width: (currentExercise / steps.length) * 100 + "%" }}
 									/>
 								</div>
 							</div>
