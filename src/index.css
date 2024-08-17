@@ -35,7 +35,7 @@
 	}
 
 	.btn {
-		@apply w-fit bg-neutral-200 font-semibold text-neutral-500 transition-colors duration-75;
+		@apply w-fit bg-neutral-200 font-semibold text-neutral-600 transition-colors duration-75;
 	}
 
 	.btn:hover {
