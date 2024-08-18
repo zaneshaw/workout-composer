@@ -243,7 +243,7 @@ function Root() {
 					</a>
 					<div className="flex gap-10">
 						<a
-							href=""
+							href="https://github.com/zaneshaw/workout-composer/issues/new?assignees=&labels=suggestion&projects=&template=feature_request.md&title="
 							target="_blank"
 							className="flex items-center gap-1 transition-colors hover:text-sky-600">
 							<svg
@@ -259,7 +259,7 @@ function Root() {
 								<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
 								<path d="M12 17h.01" />
 							</svg>
-							<div className="flex h-full items-center gap-0.5">
+							<span className="flex h-full items-center gap-0.5">
 								SUGGEST A FEATURE
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -273,10 +273,10 @@ function Root() {
 									<path d="M7 7h10v10" />
 									<path d="M7 17 17 7" />
 								</svg>
-							</div>
+							</span>
 						</a>
 						<a
-							href=""
+							href="https://github.com/zaneshaw/workout-composer/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title="
 							target="_blank"
 							className="flex items-center gap-1 transition-colors hover:text-red-700">
 							<svg
@@ -292,7 +292,7 @@ function Root() {
 								<path d="M12 8v4" />
 								<path d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
 							</svg>
-							<div className="flex h-full items-center gap-0.5">
+							<span className="flex h-full items-center gap-0.5">
 								REPORT AN ISSUE
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -306,7 +306,7 @@ function Root() {
 									<path d="M7 7h10v10" />
 									<path d="M7 17 17 7" />
 								</svg>
-							</div>
+							</span>
 						</a>
 					</div>
 				</div>
