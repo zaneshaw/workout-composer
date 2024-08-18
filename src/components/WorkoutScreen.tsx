@@ -1,6 +1,7 @@
 import { ExerciseStep, generateSteps, Workout } from "@/types/data";
 import accurateInterval from "accurate-interval";
 import React, { useEffect, useState } from "react";
+import Timer from "./Timer";
 
 type Props = {
 	workout: Workout;
@@ -47,7 +48,7 @@ const WorkoutScreen: React.FC<Props> = ({ workout, onStopWorkout }: Props) => {
 			return;
 		}
 
-		startCooldown(50);
+		startCooldown(500);
 
 		const nextExercise = currentExercise + 1;
 		const step = steps[currentExercise];
@@ -167,7 +168,16 @@ const WorkoutScreen: React.FC<Props> = ({ workout, onStopWorkout }: Props) => {
 									<>SET {(steps[currentExercise + 1] as ExerciseStep).set} IN</>
 								)}
 							</h2>
-							<h2 className="text-5xl font-semibold text-neutral-700">21 seconds</h2>
+							<h2 className="text-5xl font-semibold text-neutral-700">
+								<span>
+									<Timer
+										key={currentExercise}
+										initial={steps[currentExercise].time}
+										onFinish={next}
+									/>
+								</span>
+								<span> seconds</span>
+							</h2>
 							<div className="absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 *:h-[60vh] *:w-[60vw] *:stroke-neutral-100">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
