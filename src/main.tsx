@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
+import "./index.postcss";
 
 import Root from "./routes/root.tsx";
 
