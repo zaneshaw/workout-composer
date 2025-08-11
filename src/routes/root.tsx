@@ -95,12 +95,22 @@ function Root() {
 	}
 
 	function startWorkout() {
-		// todo: validation
+		const workout = data.workouts[currentWorkout];
+		if (workout.exercises.length == 0) {
+			// no exercises
+			return;
+		}
+		for (let i = 0; i < workout.exercises.length; i++) {
+			if (!workout.exercises[i].name) {
+				// unnamed exercise
+				return;
+			}
+		}
+
 		setStage("workout");
 	}
 
 	function stopWorkout() {
-		// todo: workout reset
 		setStage("composer");
 	}
 

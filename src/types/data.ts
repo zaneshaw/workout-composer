@@ -43,7 +43,7 @@ export function generateSteps(workout: Workout): WorkoutStep[] {
 		for (let set = 1; set < exercise.sets + 1; set++) {
 			steps.push({
 				label: exercise.name,
-				buttonLabel: set == exercise.sets && i == workout.exercises.length - 1 ? "FINISH WORKOUT" : "FINSIH SET",
+				buttonLabel: set == exercise.sets && i == workout.exercises.length - 1 ? "FINISH WORKOUT" : "FINISH SET",
 				kind: "exercise",
 				set,
 				reps: exercise.reps,
